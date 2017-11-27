@@ -20,5 +20,4 @@ Admin want to see data
  - Open files
  - Scanner
 # Example:
-![console 1](https://user-images.githubusercontent.com/32285642/32407297-98472e2e-c1b9-11e7-8498-d4127d88876c.png)
-![console2](https://user-images.githubusercontent.com/32285642/32407305-a959dd2e-c1b9-11e7-8138-98bdab9bd6c7.png)
+
