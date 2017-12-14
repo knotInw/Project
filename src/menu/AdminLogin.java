@@ -129,7 +129,7 @@ public class AdminLogin {
 		springLayout.putConstraint(SpringLayout.NORTH, label_1, 10, SpringLayout.NORTH, frmTicketingMachineadmin.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, label_1, 10, SpringLayout.WEST, frmTicketingMachineadmin.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, label_1, -967, SpringLayout.EAST, frmTicketingMachineadmin.getContentPane());
-		label_1.setIcon(new ImageIcon("C:\\Users\\Knot-Laptop\\project\\menu\\src\\picture\\back_bt.png"));
+		label_1.setIcon(new ImageIcon("src\\picture\\back_bt.png"));
 		label_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -171,7 +171,7 @@ public class AdminLogin {
 			}
 		});
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setIcon(new ImageIcon("C:\\Users\\Knot-Laptop\\project\\menu\\src\\picture\\login_bt.png"));
+		label.setIcon(new ImageIcon("src\\picture\\login_bt.png"));
 		frmTicketingMachineadmin.getContentPane().add(label);
 	}
 }

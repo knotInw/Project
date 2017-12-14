@@ -1,7 +1,6 @@
 package menu;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import javax.swing.SpringLayout;
@@ -11,14 +10,18 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -43,6 +46,7 @@ public class Payment {
 	static ArrayList<String> listMid = new ArrayList<>();
 	static ArrayList<Object> formatMember = new ArrayList<>();
 	
+	static int numid = 10000000 ;
 	static String station;
 	static ArrayList<Object> listid = new ArrayList<>();
 	private JLabel cancel;
@@ -98,6 +102,43 @@ public class Payment {
 		catch(FileNotFoundException e) {
 			System.out.println("File not found!!");
 		}
+	}
+	
+	public static void readorderFile(){
+		try {
+			Scanner reader = new Scanner(new File(dataOrder));
+
+			while(reader.hasNextLine()) {
+				String[] tempfile = reader.nextLine().replaceAll(";", "  ").split("  ");
+				if(!tempfile[0].isEmpty()) {
+					listid.add(Integer.parseInt(tempfile[0]));
+					listMname.add(tempfile[2]);
+				}
+			}
+			reader.close();
+		}
+
+		catch(FileNotFoundException e) {
+			System.out.println("File not found!!");
+		}
+	}
+	
+	public static void writeorderFile(){
+		
+			try {
+				Path file = Paths.get(dataOrder);
+				BufferedWriter writerOrder = Files.newBufferedWriter(file, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+
+				for (int i = 0; i < listMid.size(); i++) {
+					writerOrder.write("" + listid.get(i) + ";" + station + ";" + listMname.get(i) + ";" + price );
+					writerOrder.newLine();
+				}
+				writerOrder.close();
+			}
+			catch (IOException e) {
+				System.out.println("Cannot writefile!!");
+			}
+		
 	}
 	
 	public static void writememberFile() {
@@ -223,6 +264,11 @@ public class Payment {
 						else {
 							double balanceCard = listMpocket.get(i)-price;
 							listMpocket.set(i, balanceCard);
+							readorderFile();
+							while(listid.contains(numid))
+							{
+								numid++ ;
+							}
 							mass_1.setText("Balance in card: "+String.format("%.2f", balanceCard)+"Baht");
 							mass_2.setIcon(new ImageIcon("src\\picture\\next_bt.png"));
 							
@@ -232,6 +278,7 @@ public class Payment {
 									Thank.main(null);
 									frmTicketingMachine.setVisible(false);
 									writememberFile();
+									writeorderFile();
 								}
 							});
 						}
