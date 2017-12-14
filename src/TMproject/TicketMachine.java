@@ -25,10 +25,11 @@ public static void ticketSystem(){
 		}
 		else if(choice==2)
 		{
+			System.out.println("Coming soon!!");
 			//coming
 		}
 		ticketMenu();
-		System.out.print("Enter command : ");
+		System.out.print("Enter command: ");
 		choice = sc.nextInt();
 	}while(choice!=3);
 	System.out.println("Thank you.");
@@ -43,7 +44,7 @@ public static void buyticketChoice(){
 	TMManager.printTicket(stationselect);
 	
 	System.out.println("=====================================");
-	System.out.print("Enter your amount : ");
+	System.out.print("Enter your amount: ");
 	amount = sc.nextDouble();
 	TMManager.payTicket(stationselect,amount);
 	
