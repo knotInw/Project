@@ -1,8 +1,8 @@
 package TMproject;
-
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,21 +13,19 @@ public class TMManager {
 static Scanner scan = new Scanner(System.in);
 static ArrayList<Object> listStations = new ArrayList<>();
 static ArrayList<Double> listPrices = new ArrayList<>();
-static ArrayList<Long> listid = new ArrayList<>();
+static ArrayList<Object> listid = new ArrayList<>();
 static String[] stations = {"Kamphaeng Phet","Lat Phrao","Ratchadaphisek","Phra Ram9","Sukhumvit","Lumphini","Si lorm","Sam Yan","Hua Lamphong"};
 static double[] prices = {45.00,47.00,50.00,52.25,55.50,60.00,61.75,64.00,67.00};
-static long numid ;
+static int numid = 10000000 ;
 static String idsave = "src/TMproject/Data/id.txt";
-//private static int countid = 0;
 public static void readFile(){
 	try
 	{
-		Scanner reader = new Scanner(new File(idsave));
-		
-		while(reader.hasNextLine())
+		BufferedReader reader = new BufferedReader(new FileReader(idsave));
+		String datacount;
+		while((datacount = reader.readLine()) != null)
 		{
-			String temp = reader.nextLine(); 
-			listid.add(Long.parseLong(temp));
+			listid.add(Integer.parseInt(datacount));
 		}
 		reader.close();
 	}
@@ -35,37 +33,24 @@ public static void readFile(){
 	{
 		System.out.println("File not found!!");
 	}
+	catch(IOException e){
+		System.out.println("File not found!!");
+	}
 }
 
-public static void writeFile(long numid){ //not done
+public static void writeFile(String numberid){
 	try 
 	{
-		FileWriter writer = new FileWriter(new File(idsave));
-		BufferedWriter writeid = new BufferedWriter(writer);
+		BufferedWriter writeid = new BufferedWriter(new FileWriter(idsave,true));
 		
-			
-				for(int c=0 ; c<listid.size() ; c++){
-					if(!listid.contains(numid))
-					{
-						listid.add(numid);
-						writeid.write(""+listid.get(c));
-						writeid.newLine();
-					}
-				
-			}
+			writeid.append(numberid);
+			writeid.newLine();
 			writeid.close();
-	
-//		while(countid<listid.size())
-//		{
-//			writeid.write(""+listid.get(countid));
-//			writeid.newLine();
-//			countid++;
-//		}
 		
 	} 
 	catch (IOException e) 
 	{
-		System.out.println("faf");
+		System.out.println("Cannot writefile!!");
 	}
 	
 }
@@ -85,18 +70,14 @@ public static void ticketStation(){
 
 public static void printTicket(int select){
 	readFile();
-	numid = 1;
-	if(listid.contains(numid))
+	while(listid.contains(numid))
 	{
 		numid++ ;
 	}
-	else
-	{
 		System.out.printf("%-18s : %d \n","Your ticket ID",numid);
 		System.out.printf("%-18s : %s \n","Destination","Here -> "+listStations.get(select-1));
 		System.out.printf("%-18s : %.2f \n","Price",listPrices.get(select-1));
-		writeFile(numid);
-	}
+		writeFile(Integer.toString(numid));
 }
 
 public static void payTicket(int select,double money){
