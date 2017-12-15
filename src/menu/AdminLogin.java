@@ -161,12 +161,14 @@ public class AdminLogin {
 			public void mouseClicked(MouseEvent arg0) {
 				id = idField.getText();
 				password = passwordField.getText();
-				if(id.equals("Admin")&&password.equals("1234")) {
-					Data.main(null);
-					frmTicketingMachineadmin.setVisible(false);
-				}
-				else {
-					Status.setText("Wrong ID/Password try again.");
+				for(int i=0; i<listID.size(); i++) {
+					if(id.equals(listID.get(0))&&password.equals(listPass.get(0))) {
+						Data.main(null);
+						frmTicketingMachineadmin.setVisible(false);
+					}
+					else {
+						Status.setText("Wrong ID/Password try again.");
+					}
 				}
 			}
 		});

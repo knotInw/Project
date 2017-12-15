@@ -12,15 +12,19 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JScrollBar;
-import java.awt.ScrollPane;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Data extends JFrame{
+public class Data {
 
 	private JFrame frmTicketingMachine;
-	
-	Object[][] data = {{}};
-	
+	static String dataOrder = "src\\data\\order_Detail.txt";
+	static ArrayList<String>orderID;
+	static ArrayList<String>destination;
+	static ArrayList<String>customerName;
+	static ArrayList<String>price;
 	String[] columnNames = {"Order ID", "Destination", "Customer Name", "Price"};
 
 	/**
@@ -30,6 +34,7 @@ public class Data extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					readDataFile();
 					Data window = new Data();
 					window.frmTicketingMachine.setVisible(true);
 				} catch (Exception e) {
@@ -37,6 +42,25 @@ public class Data extends JFrame{
 				}
 			}
 		});
+	}
+	
+	public static void readDataFile() {
+		try {
+			Scanner reader = new Scanner(new File(dataOrder));
+			while(reader.hasNextLine()) {
+				String[] tempfile = reader.nextLine().replaceAll(";", "  ").split("  ");
+				if(!tempfile[0].isEmpty()) {
+					orderID.add(tempfile[0]);
+					destination.add(tempfile[1]);
+					customerName.add(tempfile[2]);
+					price.add(tempfile[3]);
+				}
+			}
+			reader.close();
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("File not found!!");
+		}
 	}
 
 	/**
@@ -87,12 +111,12 @@ public class Data extends JFrame{
 		model.addColumn("Customer Name");
 		model.addColumn("Price");
 		
-		for(int i=0; i<=50; i++) {
+		for(int i=0; i<orderID.size(); i++) {
 			model.addRow(new Object[0]);
-			model.setValueAt(i+1000000, i, 0);
-			model.setValueAt("Test"+(i+1), i, 1);
-			model.setValueAt("Name"+i, i, 2);
-			model.setValueAt("Price", i, 3);
+			model.setValueAt(orderID.get(i), i, 0);
+			model.setValueAt(destination.get(i), i, 1);
+			model.setValueAt(customerName.get(i), i, 2);
+			model.setValueAt(price.get(i), i, 3);
 		}
 	}
 }

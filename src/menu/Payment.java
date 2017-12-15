@@ -60,7 +60,7 @@ public class Payment {
 				try {
 					Payment window = new Payment();
 					readmemberFile();
-//					readOrderFile();
+					readOrderFile();
 					window.frmTicketingMachine.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -104,7 +104,7 @@ public class Payment {
 		}
 	}
 	
-	public static void readorderFile(){
+	public static void readOrderFile(){
 		try {
 			Scanner reader = new Scanner(new File(dataOrder));
 
@@ -130,8 +130,9 @@ public class Payment {
 				BufferedWriter writerOrder = Files.newBufferedWriter(file, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
 
 				for (int i = 0; i < listMid.size(); i++) {
-					writerOrder.write("" + listid.get(i) + ";" + station + ";" + listMname.get(i) + ";" + price );
-					writerOrder.newLine();
+						writerOrder.write("" + listid.get(i+1000000000) + ";" + station + ";" + listMname.get(i) + ";" + price );
+						writerOrder.newLine();
+						break;
 				}
 				writerOrder.close();
 			}
@@ -264,7 +265,6 @@ public class Payment {
 						else {
 							double balanceCard = listMpocket.get(i)-price;
 							listMpocket.set(i, balanceCard);
-							readorderFile();
 							while(listid.contains(numid))
 							{
 								numid++ ;
