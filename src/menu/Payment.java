@@ -10,12 +10,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -47,8 +44,11 @@ public class Payment {
 	static ArrayList<Object> formatMember = new ArrayList<>();
 	
 	static int numid = 10000000 ;
+	static ArrayList<String>  listOStation = new ArrayList<>();
+	static ArrayList<String> listOName = new ArrayList<>();
+	static ArrayList<String> listOPrice = new ArrayList<>();
 	static String station;
-	static ArrayList<Object> listid = new ArrayList<>();
+	static ArrayList<Object> listOID = new ArrayList<>();
 	private JLabel cancel;
 
 	/**
@@ -61,6 +61,9 @@ public class Payment {
 					Payment window = new Payment();
 					readmemberFile();
 					readOrderFile();
+					for(int i=0; i<listOID.size(); i++) {
+					System.out.println(listOID.get(i)+listOStation.get(i)+listOName.get(i)+listOPrice.get(i));
+					}
 					window.frmTicketingMachine.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,8 +72,8 @@ public class Payment {
 		});
 	}
 	
-	public static String getName(String Name) {
-		name = Name;
+	public static String getName(Object Name) {
+		name = (String) Name;
 		return name;
 	}
 	
@@ -111,8 +114,10 @@ public class Payment {
 			while(reader.hasNextLine()) {
 				String[] tempfile = reader.nextLine().replaceAll(";", "  ").split("  ");
 				if(!tempfile[0].isEmpty()) {
-					listid.add(Integer.parseInt(tempfile[0]));
-					listMname.add(tempfile[2]);
+					listOID.add(Integer.parseInt(tempfile[0]));
+					listOStation.add(tempfile[1]);
+					listOName.add(tempfile[2]);
+					listOPrice.add(tempfile[3]);
 				}
 			}
 			reader.close();
@@ -128,12 +133,8 @@ public class Payment {
 			try {
 				Path file = Paths.get(dataOrder);
 				BufferedWriter writerOrder = Files.newBufferedWriter(file, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-
-				for (int i = 0; i < listMid.size(); i++) {
-						writerOrder.write("" + listid.get(i+1000000000) + ";" + station + ";" + listMname.get(i) + ";" + price );
-						writerOrder.newLine();
-						break;
-				}
+					writerOrder.write("" + numid + ";" + station + ";" + name + ";" + price );
+					writerOrder.newLine();
 				writerOrder.close();
 			}
 			catch (IOException e) {
@@ -249,12 +250,12 @@ public class Payment {
 				int i=-1;
 				for(int a=0; a<listMid.size(); a++) {
 					if(ID.equals(listMid.get(a))){
-						System.out.println(a);
 						i=a;
 					}
 				}
 				if(i!=-1) {
 					if(ID.equals(listMid.get(i))) {
+						getName(listMname.get(i));
 						label.setText("Hello "+listMname.get(i));
 						TicketPrice.setText("Ticket price: "+String.format("%.2f", price)+" Baht");
 						
@@ -265,20 +266,20 @@ public class Payment {
 						else {
 							double balanceCard = listMpocket.get(i)-price;
 							listMpocket.set(i, balanceCard);
-							while(listid.contains(numid))
-							{
-								numid++ ;
-							}
+							do{
+								numid++;
+							}while(listOID.contains(numid));
+							
 							mass_1.setText("Balance in card: "+String.format("%.2f", balanceCard)+"Baht");
 							mass_2.setIcon(new ImageIcon("src\\picture\\next_bt.png"));
 							
 							mass_2.addMouseListener(new MouseAdapter() {
 								@Override
 								public void mouseClicked(MouseEvent e) {
-									Thank.main(null);
-									frmTicketingMachine.setVisible(false);
 									writememberFile();
 									writeorderFile();
+									Thank.main(null);
+									frmTicketingMachine.setVisible(false);
 								}
 							});
 						}

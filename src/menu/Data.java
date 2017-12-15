@@ -21,12 +21,11 @@ public class Data {
 
 	private JFrame frmTicketingMachine;
 	static String dataOrder = "src\\data\\order_Detail.txt";
-	static ArrayList<String>orderID;
-	static ArrayList<String>destination;
-	static ArrayList<String>customerName;
-	static ArrayList<String>price;
-	String[] columnNames = {"Order ID", "Destination", "Customer Name", "Price"};
-
+	static ArrayList<String>orderID = new ArrayList<>();
+	static ArrayList<String>destination = new ArrayList<>();
+	static ArrayList<String>customerName = new ArrayList<>();
+	static ArrayList<String>price = new ArrayList<>();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -34,8 +33,11 @@ public class Data {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					readDataFile();
 					Data window = new Data();
+					readDataFile();
+					for(int i=0; i<orderID.size(); i++) {
+						System.out.println(orderID.get(i)+destination.get(i)+customerName.get(i)+price.get(i));
+						}
 					window.frmTicketingMachine.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -97,26 +99,45 @@ public class Data {
 		frmTicketingMachine.getContentPane().add(label);
 		
 		JTable table = new JTable();
+		springLayout.putConstraint(SpringLayout.EAST, table, 1264, SpringLayout.WEST, frmTicketingMachine.getContentPane());
+		table.setEnabled(false);
 		springLayout.putConstraint(SpringLayout.WEST, table, 6, SpringLayout.EAST, frmTicketingMachine.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, table, 1244, SpringLayout.WEST, frmTicketingMachine.getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, table, 10, SpringLayout.NORTH, frmTicketingMachine.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, table, 10, SpringLayout.WEST, frmTicketingMachine.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, table, 616, SpringLayout.NORTH, frmTicketingMachine.getContentPane());
-		table.setEnabled(false);
 		table.setFont(new Font("Bangna New", Font.PLAIN, 15));
 		frmTicketingMachine.getContentPane().add(table);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Data.main(null);
+				frmTicketingMachine.setVisible(false);
+			}
+		});
+
+		springLayout.putConstraint(SpringLayout.NORTH, label_1, 6, SpringLayout.SOUTH, table);
+		springLayout.putConstraint(SpringLayout.EAST, label_1, 0, SpringLayout.EAST, table);
+		label_1.setIcon(new ImageIcon("src\\picture\\ud_bt.png"));
+		frmTicketingMachine.getContentPane().add(label_1);
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
 		model.addColumn("Order ID");
 		model.addColumn("Destination");
 		model.addColumn("Customer Name");
 		model.addColumn("Price");
-		
-		for(int i=0; i<orderID.size(); i++) {
+
+		for(int i=1; i<=orderID.size(); i++) {
+			String OrderID = orderID.get(i-1);
+			String Destination = destination.get(i-1);
+			String Customer = customerName.get(i-1);
+			String Price = price.get(i-1);
+			double value = Double.parseDouble(Price);
 			model.addRow(new Object[0]);
-			model.setValueAt(orderID.get(i), i, 0);
-			model.setValueAt(destination.get(i), i, 1);
-			model.setValueAt(customerName.get(i), i, 2);
-			model.setValueAt(price.get(i), i, 3);
+			model.setValueAt(OrderID, i-1, 0);
+			model.setValueAt(Destination, i-1, 1);
+			model.setValueAt(Customer, i-1, 2);
+			model.setValueAt(String.format("%.2f", value), i-1, 3);
 		}
 	}
 }
