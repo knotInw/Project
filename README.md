@@ -1,5 +1,8 @@
 ![project title](https://user-images.githubusercontent.com/32285642/32407019-aeb525e4-c1b4-11e7-9eff-3cf934f9f270.png)
 
+# Download
+*Click [here](https://github.com/knotInw/Project/releases/download/1.0/Project.7z) to downlaod*
+
 # Team member
  1. Tharittawat Tharasook 6010545803
  2. Katapon Sinpunyawong 6010545722
