@@ -32,8 +32,8 @@ Have 2 SampleID to payment
 - 6010545803 
 ![ui4-1](https://user-images.githubusercontent.com/32285810/34028764-a077fefe-e197-11e7-9dd2-40f9b25fc59e.jpg)
 ![ui5](https://user-images.githubusercontent.com/32285810/34028770-a3b7f862-e197-11e7-962b-1904f6c0a616.jpg)
-![uiadlog](https://user-images.githubusercontent.com/32285810/34028777-a87f8e14-e197-11e7-8660-0e835b4a6a4d.jpg)
 AdminSampleID to login
 - ID: Admin
 - Password: 1234
+![uiadlog](https://user-images.githubusercontent.com/32285810/34028777-a87f8e14-e197-11e7-8660-0e835b4a6a4d.jpg)
 ![uishow1](https://user-images.githubusercontent.com/32285810/34028783-aca93e04-e197-11e7-8a3a-655a1b5fca57.jpg)
